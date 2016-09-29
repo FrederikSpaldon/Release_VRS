@@ -68,11 +68,6 @@ int main(void)
   */
 
   /* TODO - Add your application code here */
-  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA,ENABLE);
-  GPIOA->MODER |=(uint32_t)((0b01)<<10);
-  GPIOA->OTYPER &= ~((uint16_t)((0b1)<<5));
-  GPIOA->PUPDR |=(uint32_t)((0b01)<<10);
-  GPIOA->OSPEEDR |=(uint32_t)((0b11)<<10);
 
 
 
@@ -80,10 +75,6 @@ int main(void)
   //rozbehali sme GITHUB
   while (1)
   {
-	  GPIOA->ODR |=(uint16_t)((0b1)<<5); //zapnutie led
-	  GPIOA->ODR &=~((uint16_t)((0b1)<<5)); //vypnutie led
-	  GPIOA->BSRRL |=(uint16_t)((0b1)<<5);
-	  GPIOA->BSRRH |=(uint16_t)((0b1)<<5);
 	  i++;
   }
   return 0;
