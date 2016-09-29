@@ -74,10 +74,12 @@ int main(void)
   GPIOC->OTYPER &= ~((uint32_t)((0b11)<<26));
   GPIOC->PUPDR &=~(uint32_t)((0b11)<<26);
 
+  uint16_t button=0;
   /* Infinite loop */
   //rozbehali sme GITHUB
   while (1)
   {
+	button =GPIOC->IDR;
 	  i++;
   }
   return 0;
