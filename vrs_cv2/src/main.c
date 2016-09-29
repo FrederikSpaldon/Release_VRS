@@ -73,12 +73,17 @@ int main(void)
   GPIOA->OTYPER &= ~((uint16_t)((0b1)<<5));
   GPIOA->PUPDR |=(uint32_t)((0b01)<<10);
   GPIOA->OSPEEDR |=(uint32_t)((0b11)<<10);
-  //GPIOA->ODR |=(uint16_t)((0b1)<<5);
+
+
 
   /* Infinite loop */
   while (1)
   {
-	i++;
+	  GPIOA->ODR |=(uint16_t)((0b1)<<5); //zapnutie led
+	  GPIOA->ODR &=~((uint16_t)((0b1)<<5)); //vypnutie led
+	  GPIOA->BSRRL |=(uint16_t)((0b1)<<5);
+	  GPIOA->BSRRH |=(uint16_t)((0b1)<<5);
+	  i++;
   }
   return 0;
 }
