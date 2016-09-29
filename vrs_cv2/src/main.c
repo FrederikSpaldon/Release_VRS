@@ -68,14 +68,45 @@ int main(void)
   */
 
   /* TODO - Add your application code here */
+  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA,ENABLE);
+    GPIOA->MODER |=(uint32_t)((0b01)<<10);
+    GPIOA->OTYPER &= ~((uint16_t)((0b1)<<5));
+    GPIOA->PUPDR |=(uint32_t)((0b01)<<10);
+    GPIOA->OSPEEDR |=(uint32_t)((0b11)<<10);
 
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC,ENABLE);
+     GPIOC->MODER &=~(uint32_t)((0b11)<<26);
+     GPIOC->OTYPER &= ~((uint32_t)((0b11)<<26));
+     GPIOC->PUPDR &=~(uint32_t)((0b11)<<26);
 
+     char svieti='0';
+     int counter=0;
+     int counter2=0;
+     uint16_t button=0;
 
   /* Infinite loop */
   //rozbehali sme GITHUB
   while (1)
   {
-	  i++;
+	  button = GPIOC->IDR;
+	  if (button == 1 && svieti=='0'){
+		  counter++;
+		  if(counter>5){
+			  counter=0;
+			  GPIOA->ODR|=(uint16_t)((0b1)<<5);
+			  svieti='1';
+		  }
+	  }
+	  else counter=0;
+	  if (button == 1 && svieti=='1'){
+	  		  counter2++;
+	  		  if(counter2>5){
+	  			  counter2=0;
+	  			  GPIOA->ODR&=~((uint16_t)((0b1)<<5));
+	  			  svieti='0';
+	  		  }
+	 }
+	  else counter2=0;
   }
   return 0;
 }
