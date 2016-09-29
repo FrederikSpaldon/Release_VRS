@@ -77,6 +77,7 @@ int main(void)
 
 
   /* Infinite loop */
+  //rozbehali sme GITHUB
   while (1)
   {
 	  GPIOA->ODR |=(uint16_t)((0b1)<<5); //zapnutie led
