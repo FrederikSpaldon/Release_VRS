@@ -69,7 +69,10 @@ int main(void)
 
   /* TODO - Add your application code here */
 
-
+  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC,ENABLE);
+  GPIOC->MODER &=~(uint32_t)((0b11)<<26);
+  GPIOC->OTYPER &= ~((uint32_t)((0b11)<<26));
+  GPIOC->PUPDR &=~(uint32_t)((0b11)<<26);
 
   /* Infinite loop */
   //rozbehali sme GITHUB
