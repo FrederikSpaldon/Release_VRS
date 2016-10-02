@@ -87,41 +87,16 @@ int main(void)
      GPIOC->OTYPER &= ~((uint32_t)((0b11)<<26));
      GPIOC->PUPDR &=~(uint32_t)((0b11)<<26);
 
-     char svieti='0';
-     char ready_on='0';
-     char ready_off='0';
-     int counter=0;
-     int counter2=0;
      char button=0;
 
   /* Infinite loop */
   while (1)
   {
-	  button = getBit(GPIOC->IDR);
-	  if (button == '1' && svieti=='0'){
-		  counter++;
-		  if(counter>5){
-			  ready_on='1';
-		  }
-	  }
-	  else counter=0;
-	  if (button == '1' && svieti=='1'){
-		  counter2++;
-		  if(counter2>5){
-			  ready_off='1';
-		  }
-	 }
-	  else counter2=0;
-	  if(button=='0' && ready_off=='1'){
-		  GPIOA->ODR&=~((uint16_t)((0b1)<<5));
-		  ready_off='0';
-		  svieti='0';
-	  }
-	  if(button=='0' && ready_on=='1'){
-	  	  GPIOA->ODR|=(uint16_t)((0b1)<<5);
-	  	  ready_on='0';
-	  	  svieti='1';
-	  }
+	  button=getBit(GPIOC->IDR);
+	  if(button=='1')
+		  GPIOA->ODR |=(uint16_t)(0b1<<5);
+	  else
+		  GPIOA->ODR &=~((uint16_t)(0b1<<5));
   }
   return 0;
 }
