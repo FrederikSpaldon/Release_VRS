@@ -46,6 +46,13 @@ SOFTWARE.
 **
 **===========================================================================
 */
+
+char getBit(uint16_t button)
+{
+	if(((button>>13)& 0b01)==1)
+	return '1' ;
+	else return '0';
+}
 int main(void)
 {
   int i = 0;
@@ -74,12 +81,13 @@ int main(void)
   GPIOC->OTYPER &= ~((uint32_t)((0b11)<<26));
   GPIOC->PUPDR &=~(uint32_t)((0b11)<<26);
 
-  uint16_t button=0;
+  char button='a';
   /* Infinite loop */
   //rozbehali sme GITHUB
   while (1)
   {
-	button =GPIOC->IDR;
+	button =getBit(GPIOC->IDR);
+
 	  i++;
   }
   return 0;
