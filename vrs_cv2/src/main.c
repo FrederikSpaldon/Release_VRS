@@ -46,6 +46,14 @@ SOFTWARE.
 **
 **===========================================================================
 */
+
+void casovac(){
+	int i=0;
+	for (i;i<300000;i++)
+	{
+	}
+
+}
 int main(void)
 {
   int i = 0;
@@ -85,28 +93,13 @@ int main(void)
      uint16_t button=0;
 
   /* Infinite loop */
-  //rozbehali sme GITHUB
+
   while (1)
   {
-	  button = GPIOC->IDR;
-	  if (button == 1 && svieti=='0'){
-		  counter++;
-		  if(counter>5){
-			  counter=0;
-			  GPIOA->ODR|=(uint16_t)((0b1)<<5);
-			  svieti='1';
-		  }
-	  }
-	  else counter=0;
-	  if (button == 1 && svieti=='1'){
-	  		  counter2++;
-	  		  if(counter2>5){
-	  			  counter2=0;
-	  			  GPIOA->ODR&=~((uint16_t)((0b1)<<5));
-	  			  svieti='0';
-	  		  }
-	 }
-	  else counter2=0;
+	  GPIOA->ODR|=(uint16_t)((0b1)<<5);
+	  casovac();
+	  GPIOA->ODR&= ~((uint16_t)((0b1)<<5));
+	  casovac();
   }
   return 0;
 }
