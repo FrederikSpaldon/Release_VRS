@@ -83,7 +83,9 @@ int main(void)
 	  GPIOA->ODR |=(uint16_t)((0b1)<<5); //zapnutie led
 	  GPIOA->ODR &=~((uint16_t)((0b1)<<5)); //vypnutie led
 	  GPIOA->BSRRL |=(uint16_t)((0b1)<<5);
+	  GPIOA->BSRRL &=~((uint16_t)((0b1)<<5));
 	  GPIOA->BSRRH |=(uint16_t)((0b1)<<5);
+	  GPIOA->BSRRH &=~((uint16_t)((0b1)<<5));
 	  i++;
   }
   return 0;
