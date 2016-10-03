@@ -76,29 +76,24 @@ int main(void)
   */
 
   /* TODO - Add your application code here */
+
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA,ENABLE);
-    GPIOA->MODER |=(uint32_t)((0b01)<<10);
-    GPIOA->OTYPER &= ~((uint16_t)((0b1)<<5));
-    GPIOA->PUPDR |=(uint32_t)((0b01)<<10);
-    GPIOA->OSPEEDR |=(uint32_t)((0b11)<<10);
+  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC,ENABLE);
 
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC,ENABLE);
-     GPIOC->MODER &=~(uint32_t)((0b11)<<26);
-     GPIOC->OTYPER &= ~((uint32_t)((0b11)<<26));
-     GPIOC->PUPDR &=~(uint32_t)((0b11)<<26);
-
-     char svieti='0';
-     int counter=0;
-     int counter2=0;
-     uint16_t button=0;
+  GPIO_InitTypeDef gpioInitStruc;
+  gpioInitStruc.GPIO_Mode = GPIO_Mode_OUT;
+  gpioInitStruc.GPIO_OType = GPIO_OType_PP;
+  gpioInitStruc.GPIO_Pin = GPIO_Pin_5;
+  gpioInitStruc.GPIO_Speed=GPIO_Speed_400KHz;
+  GPIO_Init(GPIOA,&gpioInitStruc);
 
   /* Infinite loop */
 
   while (1)
   {
-	  GPIOA->ODR|=(uint16_t)((0b1)<<5);
+	  GPIO_SetBits(GPIOA, GPIO_Pin_5);
 	  casovac();
-	  GPIOA->ODR&= ~((uint16_t)((0b1)<<5));
+	  GPIO_ResetBits(GPIOA, GPIO_Pin_5);
 	  casovac();
   }
   return 0;
