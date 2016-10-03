@@ -69,15 +69,33 @@ int main(void)
 
   /* TODO - Add your application code here */
 
+  	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA,ENABLE);
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC,ENABLE);
+
+    GPIO_InitTypeDef gpioInitStruc;
+    gpioInitStruc.GPIO_Mode = GPIO_Mode_OUT;
+    gpioInitStruc.GPIO_OType = GPIO_OType_PP;
+    gpioInitStruc.GPIO_Pin = GPIO_Pin_5;
+    gpioInitStruc.GPIO_Speed=GPIO_Speed_400KHz;
+    GPIO_Init(GPIOA,&gpioInitStruc);
+
+    GPIO_SetBits(GPIOA, GPIO_Pin_5);
+    GPIO_ResetBits(GPIOA, GPIO_Pin_5);
+
+    gpioInitStruc.GPIO_Mode= GPIO_Mode_IN;
+    gpioInitStruc.GPIO_PuPd = GPIO_PuPd_UP;
+    gpioInitStruc.GPIO_Pin = GPIO_Pin_13;
+    gpioInitStruc.GPIO_Speed=GPIO_Speed_40MHz;
+    GPIO_Init(GPIOC,&gpioInitStruc);
+
+    uint8_t button= GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_13);
 
 
-  /* Infinite loop */
-  //rozbehali sme GITHUB
-  while (1)
-  {
-	  i++;
-  }
-  return 0;
+    while (1)
+    {
+  	  button= GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_13);
+    }
+    return 0;
 }
 
 #ifdef  USE_FULL_ASSERT
