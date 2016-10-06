@@ -47,12 +47,6 @@ SOFTWARE.
 **===========================================================================
 */
 
-char getBit(uint16_t button)
-{
-	if(((button>>13)& 0b01)==1)
-	return '0' ;
-	else return '1';
-}
 
 int main(void)
 {
@@ -97,32 +91,32 @@ int main(void)
      char ready_off='0';
      int counter=0;
      int counter2=0;
-     char button=0;
+     uint8_t button=0;
 
   /* Infinite loop */
   while (1)
   {
-	  button = getBit(GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_13));
-	  if (button == '1' && svieti=='0'){
+	  button = GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_13);
+	  if (button == 0 && svieti=='0'){
 		  counter++;
 		  if(counter>5){
 			  ready_on='1';
 		  }
 	  }
 	  else counter=0;
-	  if (button == '1' && svieti=='1'){
+	  if (button == 0 && svieti=='1'){
 		  counter2++;
 		  if(counter2>5){
 			  ready_off='1';
 		  }
 	 }
 	  else counter2=0;
-	  if(button=='0' && ready_off=='1'){
+	  if(button==1 && ready_off=='1'){
 		  GPIO_ResetBits(GPIOA, GPIO_Pin_5);
 		  ready_off='0';
 		  svieti='0';
 	  }
-	  if(button=='0' && ready_on=='1'){
+	  if(button==1 && ready_on=='1'){
 		  GPIO_SetBits(GPIOA, GPIO_Pin_5);
 	  	  ready_on='0';
 	  	  svieti='1';
