@@ -47,12 +47,6 @@ SOFTWARE.
 **===========================================================================
 */
 
-char getBit(uint16_t button)
-{
-	if(((button>>13)& 0b01)==1)
-	return '0' ;
-	else return '1';
-}
 
 int main(void)
 {
@@ -92,13 +86,13 @@ int main(void)
       gpioInitStruc.GPIO_Speed=GPIO_Speed_40MHz;
       GPIO_Init(GPIOC,&gpioInitStruc);
 
-      char button=0;
+      uint8_t button=0;
 
   /* Infinite loop */
   while (1)
   {
-	  button=getBit(GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_13));
-	  if(button=='1')
+	  button=GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_13);
+	  if(button==0)
 		  GPIO_SetBits(GPIOA, GPIO_Pin_5);
 	  else
 		  GPIO_ResetBits(GPIOA, GPIO_Pin_5);
