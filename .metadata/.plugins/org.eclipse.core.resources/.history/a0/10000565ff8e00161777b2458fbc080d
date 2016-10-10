@@ -145,12 +145,13 @@ int main(void)
   init_LED();
   // Infinite loop */
   uint16_t AD_value=(uint16_t)0;
-
+  uint16_t previous=0;
   while(1){
 	  ADC_SoftwareStartConv(ADC1);
 	  while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC)){}
 	  AD_value=ADC_GetConversionValue(ADC1);
 	  casovac(AD_value);
+	  previous=AD_value;
   }
   return 0;
 }

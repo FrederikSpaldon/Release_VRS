@@ -47,13 +47,12 @@ SOFTWARE.
 **===========================================================================
 */
 
-//init klavesnice
 void adc_init(void)
 {
  GPIO_InitTypeDef GPIO_InitStructure;
  ADC_InitTypeDef ADC_InitStructure;
  /* Enable GPIO clock */
- RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+ RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);//Opraviù a upraviù
  /* Configure ADCx Channel 2 as analog input */
  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 ;
  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
@@ -86,7 +85,6 @@ void adc_init(void)
  ADC_SoftwareStartConv(ADC1);
 }
 
-//init LEDky
 void init_LED(void){
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA,ENABLE);
 	GPIO_InitTypeDef gpioInitStruc;
@@ -98,7 +96,6 @@ void init_LED(void){
 
 }
 
-//delay funkcia
 void blikaj(int pocet){
 	int i=0;
 	for(i;i<pocet;i++){
@@ -106,7 +103,6 @@ void blikaj(int pocet){
 	}
 }
 
-//na zaklade AN hodnoty urcuje frekvenciu blikania
 void casovac(uint16_t AD_value){
 	if(AD_value<2200){
 		GPIO_SetBits(GPIOA, GPIO_Pin_5);
@@ -132,7 +128,7 @@ void casovac(uint16_t AD_value){
 			GPIO_ResetBits(GPIOA, GPIO_Pin_5);
 			blikaj(500000);
 		}
-	else{ //svieti ak je pusteny button
+	else{
 		GPIO_SetBits(GPIOA, GPIO_Pin_5);
 	}
 }
@@ -140,17 +136,41 @@ void casovac(uint16_t AD_value){
 
 int main(void)
 {
+  int i = 0;
+
+  /**
+  *  IMPORTANT NOTE!
+  *  See the <system_*.c> file and how/if the SystemInit() function updates 
+  *  SCB->VTOR register. Sometimes the symbol VECT_TAB_SRAM needs to be defined 
+  *  when building the project if code has been located to RAM and interrupts 
+  *  are used. Otherwise the interrupt table located in flash will be used.
+  *  E.g.  SCB->VTOR = 0x20000000;  
+  */
+
+  /**
+  *  At this stage the microcontroller clock setting is already configured,
+  *  this is done through SystemInit() function which is called from startup
+  *  file (startup_stm32l1xx_hd.s) before to branch to application main.
+  *  To reconfigure the default setting of SystemInit() function, refer to
+  *  system_stm32l1xx.c file
+  */
+
+  /* TODO - Add your application code here */
+
+
+  /* Start ADC Software Conversion */
 
   adc_init();
   init_LED();
   // Infinite loop */
   uint16_t AD_value=(uint16_t)0;
-
+  uint16_t previous=0;
   while(1){
 	  ADC_SoftwareStartConv(ADC1);
 	  while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC)){}
 	  AD_value=ADC_GetConversionValue(ADC1);
 	  casovac(AD_value);
+	  previous=AD_value;
   }
   return 0;
 }
