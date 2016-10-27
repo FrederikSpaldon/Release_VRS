@@ -119,7 +119,16 @@ void init_USART(){
 void ADC1_IRQHandler(void){
 	//while(ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC | ADC_FLAG_OVR)!=RESET){}
 	if(ADC1->SR && ADC_SR_EOC){
-		AD_value = ADC1->DR;
+		//posielanie vo formate 4096
+		if(format=='0'){
+			sprintf(res,"%d",ADC1->DR);
+			posli(res);
+		}
+		//posielanie vo formate 3.300V
+		else{
+			format_3V((3.3/4096)*ADC1->DR,res);
+			posli(res);
+		}
 	}
 
 }
@@ -129,6 +138,10 @@ void USART2_IRQHandler(void){
 	if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET){
 		USART_ClearITPendingBit(USART2, USART_IT_RXNE);
 		In = USART_ReceiveData(USART2);
+		if(In=='m'){
+			format=(format=='0' ? '1':'0');
+			In=0;
+		}
     }
 }
 

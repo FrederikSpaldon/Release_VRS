@@ -25,5 +25,7 @@ void format_3V(float number, char *res);
 
 uint16_t AD_value;
 uint16_t In;
+char format;
+char res[10];
 
 #endif /* VRS_CV5_H_ */

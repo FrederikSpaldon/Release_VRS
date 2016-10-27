@@ -52,33 +52,16 @@ SOFTWARE.
 
 int main(void){
 
-  AD_value=3442;
+  AD_value=0;
   In=0;
+  format='0';
 
   adc_init();
   init_LED();
   init_USART();
   init_NVIC();
-  char res[10];
-  char format='0';
 
   while(1){
-
-	  //zmena formatu na znak 'm'
-	  if(In=='m'){
-		  format=(format=='0' ? '1':'0');
-		  In=0;
-	  }
-	  //posielanie vo formate 4096
-	  if(format=='0'){
-		  sprintf(res,"%d",AD_value);
-		  posli(res);
-	  }
-	  //posielanie vo formate 3.300V
-	  else{
-		  format_3V((3.3/4096)*AD_value,res);
-		  posli(res);
-	  }
   }
   return 0;
 }
